@@ -8,6 +8,7 @@ namespace Eason.HelloWorldIos
     public class Application : MonoBehaviour
     {
         [SerializeField] private ToggleButton _menuButton;
+        [SerializeField] private GameObject _player;
 
         [Header("Menu")]
         [SerializeField] private GameObject _menuRoot; 
@@ -45,6 +46,7 @@ namespace Eason.HelloWorldIos
         private void ToggleMenuButton(bool active)
         {
             _menuRoot.SetActive(!active);
+            _player.SetActive(active);
         }
 
         private void OnDestroy()
