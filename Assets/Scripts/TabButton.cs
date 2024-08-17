@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 namespace Eason.HelloWorldIos
 {
+
     [RequireComponent(typeof(ButtonGroupElement))]
     public class TabButton : MonoBehaviour
     {
