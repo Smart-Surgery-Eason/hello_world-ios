@@ -19,7 +19,7 @@ namespace Eason.HelloWorldIos
         [SerializeField] private TMP_InputField _textEditorInputField;
         [SerializeField] private Button _saveButton;
         [SerializeField] private VideoPlayer _videoPlayer;
-        [SerializeField] private Button _playVideoButton;
+        [SerializeField] private Button _loadVideoButton;
 
 
         [SerializeField] private bool _status;
@@ -28,16 +28,27 @@ namespace Eason.HelloWorldIos
 
         private void Awake()
         {
+            _textEditorInputField.text = _textEditorText;
+            _filePathInputField.text = _filePath;
+
             _logHelloWorldButton.onClick.AddListener(LogHelloWorld);
             _changeStatusButton.onClick.AddListener(ChangeStatus);
-
-
             _textEditorInputField.onValueChanged.AddListener(TextEditorInputFieldValueChanged);
-            _textEditorInputField.text = _textEditorText;
             _filePathInputField.onValueChanged.AddListener(FilePathInputFieldValueChanged);
-            _filePathInputField.text = _filePath;
             _loadButton.onClick.AddListener(Load);
             _saveButton.onClick.AddListener(Save);
+            _loadVideoButton.onClick.AddListener(LoadVideo);
+        }
+
+        private void OnDestroy()
+        {
+            _logHelloWorldButton.onClick.RemoveListener(LogHelloWorld);
+            _changeStatusButton.onClick.RemoveListener(ChangeStatus);
+            _textEditorInputField.onValueChanged.RemoveListener(TextEditorInputFieldValueChanged);
+            _filePathInputField.onValueChanged.RemoveListener(FilePathInputFieldValueChanged);
+            _loadButton.onClick.RemoveListener(Load);
+            _saveButton.onClick.RemoveListener(Save);
+            _loadVideoButton.onClick.RemoveListener(LoadVideo);
         }
 
         private void TextEditorInputFieldValueChanged(string text)
@@ -82,7 +93,7 @@ namespace Eason.HelloWorldIos
             }
             File.WriteAllText(path, _textEditorText);
         }
-        private void PlayVideo()
+        private void LoadVideo()
         {
             var path = Path.Combine(UnityEngine.Application.persistentDataPath, _filePath);
             if(!File.Exists(path))

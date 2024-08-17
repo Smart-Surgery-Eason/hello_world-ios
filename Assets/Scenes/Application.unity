@@ -586,7 +586,7 @@ MonoBehaviour:
   _textEditorInputField: {fileID: 524807841}
   _saveButton: {fileID: 1714466901}
   _videoPlayer: {fileID: 914170241}
-  _playVideoButton: {fileID: 1533069331}
+  _loadVideoButton: {fileID: 1533069331}
   _status: 0
   _filePath: 
   _textEditorText: 
@@ -1402,7 +1402,7 @@ VideoPlayer:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: 00_Standard_EN.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
