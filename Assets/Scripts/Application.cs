@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -10,6 +7,10 @@ namespace Eason.HelloWorldIos
 {
     public class Application : MonoBehaviour
     {
+        [SerializeField] private ToggleButton _menuButton;
+
+        [Header("Menu")]
+        [SerializeField] private GameObject _menuRoot; 
         [SerializeField] private Button _logHelloWorldButton;
         [SerializeField] private Button _changeStatusButton;
         [SerializeField] private TextMeshProUGUI _statusText;
@@ -25,9 +26,10 @@ namespace Eason.HelloWorldIos
         [SerializeField] private bool _status;
         [SerializeField] private string _filePath;
         [SerializeField] private string _textEditorText;
-
         private void Awake()
         {
+            _menuButton.toggle.AddListener(ToggleMenuButton);
+            // Menu
             _textEditorInputField.text = _textEditorText;
             _filePathInputField.text = _filePath;
 
@@ -38,6 +40,11 @@ namespace Eason.HelloWorldIos
             _loadButton.onClick.AddListener(Load);
             _saveButton.onClick.AddListener(Save);
             _loadVideoButton.onClick.AddListener(LoadVideo);
+        }
+
+        private void ToggleMenuButton(bool active)
+        {
+            _menuRoot.SetActive(!active);
         }
 
         private void OnDestroy()
