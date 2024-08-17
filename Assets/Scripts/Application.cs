@@ -9,17 +9,24 @@ namespace Eason.HelloWorldIos
     {
         [SerializeField] private ToggleButton _menuButton;
         [SerializeField] private GameObject _player;
+        [SerializeField] private GameObject _uiCamera;
 
-        [Header("Menu")]
+        [SerializeField] private GameObject[] _activateGroup;
+        [SerializeField] private GameObject[] _deactivateGroup;
+
+        [Header("Hello World")]
         [SerializeField] private GameObject _menuRoot; 
         [SerializeField] private Button _logHelloWorldButton;
         [SerializeField] private Button _changeStatusButton;
         [SerializeField] private TextMeshProUGUI _statusText;
 
-        [SerializeField] private TMP_InputField _filePathInputField;
-        [SerializeField] private Button _loadButton;
-        [SerializeField] private TMP_InputField _textEditorInputField;
+        [Header("File")]
+        [SerializeField] private TMP_InputField _textFilePathInputField;
+        [SerializeField] private Button _loadTextButton;
         [SerializeField] private Button _saveButton;
+        [SerializeField] private TMP_InputField _textEditorInputField;
+
+        [Header("Video")]
         [SerializeField] private VideoPlayer _videoPlayer;
         [SerializeField] private Button _loadVideoButton;
 
@@ -32,21 +39,27 @@ namespace Eason.HelloWorldIos
             _menuButton.toggle.AddListener(ToggleMenuButton);
             // Menu
             _textEditorInputField.text = _textEditorText;
-            _filePathInputField.text = _filePath;
+            _textFilePathInputField.text = _filePath;
 
             _logHelloWorldButton.onClick.AddListener(LogHelloWorld);
             _changeStatusButton.onClick.AddListener(ChangeStatus);
             _textEditorInputField.onValueChanged.AddListener(TextEditorInputFieldValueChanged);
-            _filePathInputField.onValueChanged.AddListener(FilePathInputFieldValueChanged);
-            _loadButton.onClick.AddListener(Load);
+            _textFilePathInputField.onValueChanged.AddListener(FilePathInputFieldValueChanged);
+            _loadTextButton.onClick.AddListener(Load);
             _saveButton.onClick.AddListener(Save);
             _loadVideoButton.onClick.AddListener(LoadVideo);
         }
 
         private void ToggleMenuButton(bool active)
         {
-            _menuRoot.SetActive(!active);
-            _player.SetActive(active);
+            foreach (var go in _activateGroup)
+            {
+                go.SetActive(active);
+            }
+            foreach (var go in _deactivateGroup)
+            {
+                go.SetActive(!active);
+            }
         }
 
         private void OnDestroy()
@@ -54,8 +67,8 @@ namespace Eason.HelloWorldIos
             _logHelloWorldButton.onClick.RemoveListener(LogHelloWorld);
             _changeStatusButton.onClick.RemoveListener(ChangeStatus);
             _textEditorInputField.onValueChanged.RemoveListener(TextEditorInputFieldValueChanged);
-            _filePathInputField.onValueChanged.RemoveListener(FilePathInputFieldValueChanged);
-            _loadButton.onClick.RemoveListener(Load);
+            _textFilePathInputField.onValueChanged.RemoveListener(FilePathInputFieldValueChanged);
+            _loadTextButton.onClick.RemoveListener(Load);
             _saveButton.onClick.RemoveListener(Save);
             _loadVideoButton.onClick.RemoveListener(LoadVideo);
         }

@@ -1,21 +1,10 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 namespace Eason.HelloWorldIos
 {
-    [Serializable]
-    public struct ButtonPresentation
-    {
-        [SerializeField] private string _text;
-        [SerializeField] private Color _color;
-        [SerializeField] private Color _backgroundColor;
-
-        public string text { get => _text; set => _text = value; }
-        public Color color { get => _color; set => _color = value; }
-        public Color backgroundColor { get => _backgroundColor; set => _backgroundColor = value; }
-    }
+    [RequireComponent(typeof(Button))]
     public class ToggleButton : MonoBehaviour
     {
         [Header("Components")]
@@ -29,6 +18,13 @@ namespace Eason.HelloWorldIos
         [SerializeField] private bool _active;
 
         public UnityEvent<bool> toggle { get => _toggle; set => _toggle = value; }
+
+        public void SetActive(bool active)
+        {
+            if (active == _active) return;
+            _active = active;
+            UpdateUI();
+        }
 
         private void OnValidate()
         {
@@ -49,12 +45,9 @@ namespace Eason.HelloWorldIos
             _toggle.Invoke(_active);
             UpdateUI();
         }
-
         private void UpdateUI()
         {
-            _text.text = _active ? _activePresentation.text : _deactivePresentation.text;
-            _text.color = _active ? _activePresentation.color : _deactivePresentation.color;
-            _button.GetComponent<Image>().color = _active ? _activePresentation.backgroundColor : _deactivePresentation.backgroundColor;
+            ButtonExtension.SetButtonPresentation(_button, _active ? _activePresentation : _deactivePresentation);
         }
     }
 
