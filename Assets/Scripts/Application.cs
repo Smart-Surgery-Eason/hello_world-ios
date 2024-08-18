@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+
 namespace Eason.HelloWorldIos
 {
     public class Application : MonoBehaviour
@@ -43,6 +44,12 @@ namespace Eason.HelloWorldIos
         [SerializeField] private Button _loadVideo360Button;
         [SerializeField] private string _video360Path;
 
+        [Header("Folder")]
+        [SerializeField] private TMP_InputField _folderPathInputField;
+        [SerializeField] private string _folderPath;
+        [SerializeField] private Button _loadFolderButton;
+        [SerializeField] private TextMeshProUGUI _itemListOfFolderText;
+
         private void Awake()
         {
             _menuButton.toggle.AddListener(ToggleMenuButton);
@@ -51,6 +58,7 @@ namespace Eason.HelloWorldIos
             _textFilePathInputField.text = _textFilePath;
             _videoPathInputField.text = _videoPath;
             _video360PathInputField.text = _video360Path;
+            _folderPathInputField.text = _folderPath;
 
             _logHelloWorldButton.onClick.AddListener(LogHelloWorld);
             _changeStatusButton.onClick.AddListener(ChangeStatus);
@@ -63,6 +71,27 @@ namespace Eason.HelloWorldIos
             _videoPathInputField.onValueChanged.AddListener(VideoPathInputFieldValueChanged);
             _loadVideo360Button.onClick.AddListener(LoadVideo360);
             _video360PathInputField.onValueChanged.AddListener(Video360PathInputFieldValueChanged);
+
+            _folderPathInputField.onValueChanged.AddListener(FolderPathInputChanged);
+            _loadFolderButton.onClick.AddListener(LoadFolder);
+        }
+
+        private void LoadFolder()
+        {
+            var path = Path.Combine(UnityEngine.Application.persistentDataPath, _folderPath);
+            if (!Directory.Exists(path))
+            {
+                _statusText.text = "Directory Not Found";
+                return;
+            }
+            var results = Directory.GetFileSystemEntries(path);
+            Debug.Log(results.Length);
+            _itemListOfFolderText.text = string.Join(Environment.NewLine, results);
+        }
+
+        private void FolderPathInputChanged(string path)
+        {
+            _folderPath = path;
         }
 
         private void Video360PathInputFieldValueChanged(string path)
